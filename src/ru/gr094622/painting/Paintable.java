@@ -3,9 +3,7 @@ package ru.gr094622.painting;
 import java.awt.*;
 
 public interface Paintable {
-    int getWidth();
-    int getHeight();
-    void setWidth(int w);
-    void setHeight(int h);
+    Dimension getSize();
+    void setSize(Dimension size);
     void paint(Graphics g);
 }

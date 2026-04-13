@@ -4,6 +4,6 @@ import ru.gr094622.painting.Paintable;
 
 import java.awt.*;
 
-public class Animator implements Paintable, Animatable {
+public class Animator implements Animatable {
 
 }
