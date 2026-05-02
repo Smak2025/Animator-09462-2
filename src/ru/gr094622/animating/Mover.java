@@ -5,25 +5,16 @@ import ru.gr094622.model.GeometryObject;
 import java.awt.*;
 import java.util.List;
 
-public class Mover implements Animatable, Runnable {
+public class Mover implements Animatable {
     private List<GeometryObject> objects;
     private Dimension size;
     private boolean isRunning = false;
     private Thread thread;
 
-    public Mover(List<GeometryObject> objects) {
+
+    public Mover(List<GeometryObject> objects, Dimension size) {
         this.objects = objects;
-    }
-
-    public void run() {
-        while (isRunning) {
-            moveFigures();
-
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-            }
-        }
+        this.size = size;
     }
 
     public void moveFigures() {
@@ -31,7 +22,7 @@ public class Mover implements Animatable, Runnable {
             int newX = obj.getX() + obj.getXSpeed();
             int newY = obj.getY() + obj.getYSpeed();
 
-            if (newX < 0 || newX + obj.getSize().width > size.height) {
+            if (newX < 0 || newX + obj.getSize().width > size.width) {
                 obj.inverseXSpeed();
             } else {
                 obj.setX(newX);
@@ -50,7 +41,16 @@ public class Mover implements Animatable, Runnable {
         if (isRunning) return;
 
         isRunning = true;
-        thread = new Thread(this);
+        thread = new Thread(() -> {
+            while (isRunning) {
+                moveFigures();
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    break;
+                }
+            }
+        });
         thread.start();
     }
 

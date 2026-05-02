@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Random;
 
 // Импорты ваших классов
+import ru.gr094622.animating.Animator;
+import ru.gr094622.animating.Mover;
 import ru.gr094622.model.GeometryObject;
 import ru.gr094622.painting.Circle;
 import ru.gr094622.painting.Rect;
@@ -77,20 +79,17 @@ public class MainWindow extends JFrame {
         add(controlPanel, BorderLayout.SOUTH);
 
         // 3. Инициализация логики
-        mover = new Mover(objects, renderPanel);
-        animator = new Animator(renderPanel);
-
-        new Thread(mover).start();
-        new Thread(animator).start();
+        mover = new Mover(objects, getSize());
+        animator = new Animator(objects, getSize(), renderPanel);
 
         btnStart.addActionListener(e -> {
-            mover.setRunning(true);
-            animator.setRunning(true);
+            mover.start();
+            animator.start();
         });
 
         btnStop.addActionListener(e -> {
-            mover.setRunning(false);
-            animator.setRunning(false);
+            mover.stop();
+            animator.stop();
         });
     }
 
